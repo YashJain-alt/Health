@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Reward System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 30%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        .points-display {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .reward-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .goal-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Fitness Reward System</h1>
+        <div class="points-display" id="pointsDisplay">Points: 0</div>
+    </div>
+
+    <div class="container">
+        <!-- Earn Points Section -->
+        <div class="card">
+            <h2>Earn Points</h2>
+            <button onclick="earnPoints(10)">Complete a Workout (10 pts)</button>
+            <button onclick="earnPoints(5)">Log a Meal (5 pts)</button>
+            <button onclick="earnPoints(15)">Achieve a Milestone (15 pts)</button>
+        </div>
+
+        <!-- Redeem Points Section -->
+        <div class="card">
+            <h2>Redeem Rewards</h2>
+            <div class="reward-item">
+                <span>Custom Avatar</span>
+                <span>50 pts</span>
+                <button onclick="redeemReward(50)">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <span>Fitness Gear Discount</span>
+                <span>100 pts</span>
+                <button onclick="redeemReward(100)">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <span>Exclusive Workout Plan</span>
+                <span>75 pts</span>
+                <button onclick="redeemReward(75)">Redeem</button>
+            </div>
+        </div>
+
+        <!-- Goals Section -->
+        <div class="card">
+            <h2>Goals</h2>
+            <div class="goal-item">
+                <span>Run 5 km</span>
+                <button onclick="completeGoal(this, 10)">Complete (10 pts)</button>
+            </div>
+            <div class="goal-item">
+                <span>Log 10 meals</span>
+                <button onclick="completeGoal(this, 5)">Complete (5 pts)</button>
+            </div>
+            <div class="goal-item">
+                <span>Achieve 3 workout sessions</span>
+                <button onclick="completeGoal(this, 15)">Complete (15 pts)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let points = 0;
+
+        function earnPoints(amount) {
+            points += amount;
+            document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
+        }
+
+        function redeemReward(cost) {
+            if (points >= cost) {
+                points -= cost;
+                document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
+            } else {
+                alert("Not enough points to redeem this reward!");
+            }
+        }
+
+        function completeGoal(button, pointsEarned) {
+            earnPoints(pointsEarned);
+            const goalItem = button.parentElement;
+            goalItem.style.display = 'none';  // Hide the completed goal
+            alert(`Goal completed! Earned ${pointsEarned} points.`);
+        }
+    </script>
+
+</body>
+</html>
