@@ -215,24 +215,22 @@
 
             completeButton.addEventListener('click', function () {
                 totalXp += 100;
-
+            
                 if (totalXp >= xpToNextLevel) {
-                    const coinReward = level * 10;
-                    coins += coinReward;
-                    alert(`Level up! You hit level ${level + 1} and got ${coinReward} coins 🏆!`);
                     level += 1;
                     totalXp = 0;
                     xpToNextLevel = 500 * level;
+                    alert(`Level up! You hit level ${level + 1} 🏆!`);
                 }
-
+            
                 xpRemainingDisplay.textContent = xpToNextLevel - totalXp;
                 totalXpDisplay.textContent = totalXp;
                 levelDisplay.textContent = level;
-                coinsDisplay.textContent = coins;
-
+            
                 alert('Challenge completed! You earned 100 XP 🎉');
                 challengeText.textContent = getRandomChallenge();
             });
+            
 
             challengesButton.addEventListener('click', function () {
                 const selectedChallenges = challenges.slice(0, 5);
