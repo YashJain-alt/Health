@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Leaderboard</title>
+    <title>Fitness Leaderboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,12 +16,14 @@
             padding: 0;
         }
         .leaderboard {
-            width: 60%;
+            width: 90%; /* Make it responsive */
+            max-width: 800px; /* Set a maximum width */
             margin: 30px auto;
-            background-color: rgba(255, 255, 255, 0.9); /* Transparent background for readability */
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            overflow: hidden; /* Prevent overflow */
         }
         .leaderboard h2 {
             text-align: center;
@@ -42,15 +44,16 @@
         }
         .leaderboard tr:hover {
             background-color: #f1f1f1;
+            transition: background-color 0.3s ease; /* Smooth transition */
         }
         .rank-1 {
-            background-color: #ffd700; /* Gold */
+            background-color: #ffd700;
         }
         .rank-2 {
-            background-color: #c0c0c0; /* Silver */
+            background-color: #c0c0c0;
         }
         .rank-3 {
-            background-color: #cd7f32; /* Bronze */
+            background-color: #cd7f32;
         }
         .tier {
             font-weight: bold;
@@ -63,12 +66,19 @@
             border-radius: 5px;
             font-size: 12px;
         }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="leaderboard">
-        <h2>🏆 Champions Circle Leaderboard 🏆</h2>
+    <div class="leaderboard" aria-labelledby="leaderboard-title">
+        <h2 id="leaderboard-title">🏆 Fitness Leaderboard 🏆</h2>
         <table>
             <thead>
                 <tr>
