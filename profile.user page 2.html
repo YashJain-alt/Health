@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #2c3e50;
+            background: linear-gradient(to bottom, #2c3e50, #34495e);
             color: #ecf0f1;
             margin: 0;
             padding: 0;
@@ -24,16 +24,20 @@
             display: flex;
             justify-content: space-around;
             margin: 30px 0;
+            flex-wrap: wrap;
         }
         .profile-card {
             background-color: #34495e;
             border-radius: 10px;
             padding: 20px;
             width: 30%;
+            margin: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .profile-card h2 {
             margin-top: 0;
+            display: flex;
+            align-items: center;
         }
         .profile-card ul {
             list-style-type: none;
@@ -44,6 +48,11 @@
             background-color: #3b4b5e;
             margin-bottom: 10px;
             border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .profile-card ul li:hover {
+            background-color: #1abc9c; /* Change color on hover */
+            transform: scale(1.02); /* Slightly enlarge the item */
         }
         .badge {
             background-color: #e74c3c;
@@ -81,6 +90,15 @@
         .stats-box h3 {
             margin: 10px 0;
         }
+        .notification {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px auto;
+            width: fit-content;
+            display: none; /* Hidden by default */
+        }
     </style>
 </head>
 <body>
@@ -90,6 +108,8 @@
         <h3>Username: FitPro | Level: 5</h3>
         <img src="https://via.placeholder.com/50" alt="Friend 1">
     </div>
+
+    <div class="notification" id="notification">Goal completed! +10 XP</div>
 
     <div class="profile-stats">
         <div class="stats-box">
@@ -151,6 +171,19 @@
         </div>
 
     </div>
+
+    <script>
+        // Example to show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => notification.style.display = 'none', 3000);
+        }
+
+        // Call this function when a goal is completed (example)
+        showNotification("Goal completed! +10 XP");
+    </script>
 
 </body>
 </html>
