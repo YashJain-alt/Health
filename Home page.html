@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Game</title>
+    <style>
+        body {
+            background-color: rgba(51, 51, 51); /* Semi-transparent background */
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(224, 184, 184, 0.3);
+            margin-bottom: 20px;
+        }
+        header {
+            background-color: rgb(97, 98, 71); /* Semi-transparent background */
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        nav {
+            margin: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: rgb(218, 160, 61); /* Gold color on hover */
+        }
+
+        main {
+            background-color: rgb(218, 160, 61); /* Semi-transparent yellow background */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(241, 237, 237, 0.2);
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: rgb(10, 10, 10);
+            border-bottom: 2px solid rgb(243, 248, 244);
+            padding-bottom: 10px;
+        }
+
+        #stats {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        button {
+            background-color: rgb(97, 98, 71);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #0daa34;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background-color: #e11111;
+            cursor: not-allowed;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        #challenges-list,
+        #challenge,
+        #shop-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FitVenture</h1>
+        <nav>
+            <ul>
+                <li><a href="#" id="challenge-button">Challenges</a></li>
+                <li><a href="shop.html" id="shop-button">Shop</a></li>
+                <li><a href="leaderboard.html" id="Leaderboard-button">Leaderboard</a></li>
+                <li><a href="New profile.html" id="Profile-button">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dashboard">
+            <h2>Your Profile</h2>
+            <div id="stats">
+                <p><strong>Level:</strong> <span id="level">1</span></p>
+                <p><strong>XP Remaining:</strong> <span id="xp-remaining">500</span></p>
+                <p><strong>Total XP:</strong> <span id="total-xp">0</span></p>
+                <p><strong>Coins:</strong> <span id="coins">0</span></p>
+            </div>
+            <button id="start-challenge">Start Today's Challenge</button>
+        </section>
+
+        <section id="challenge">
+            <h2>Today's Challenge</h2>
+            <p id="challenge-text">Complete 20 squats</p>
+            <button id="complete-challenge">Complete Challenge</button>
+        </section>
+
+        <section id="challenges-list">
+            <h2>Your Challenges</h2>
+            <ul id="challenges"></ul>
+            <button id="claim-challenge-reward">Claim Reward</button>
+        </section>
+
+        <section id="shop-section">
+            <h2>Shop</h2>
+            <p>Spend your coins on fitness-related items:</p>
+            <ul id="shop-items">
+                <li>Resistance Band - 50 Coins <button class="buy-item" data-price="50">Buy</button></li>
+                <li>Yoga Mat - 100 Coins <button class="buy-item" data-price="100">Buy</button></li>
+                <li>Dumbbells - 200 Coins <button class="buy-item" data-price="200">Buy</button></li>
+            </ul>
+            <h3>Purchased Items</h3>
+            <ul id="purchased-items"></ul>
+        </section>
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let totalXp = 0;         // Total XP earned
+            let level = 1;           // Initial level
+            let xpToNextLevel = 500; // XP needed for the next level
+            let coins = 0;           // Player's coins
+            let challengeStarted = false; // Track if the challenge has started
+            let rewardsReady = false; // Track if rewards are ready to be claimed
+            let purchasedItems = [];  // Track purchased items
+
+            const xpRemainingDisplay = document.getElementById('xp-remaining');
+            const totalXpDisplay = document.getElementById('total-xp');
+            const levelDisplay = document.getElementById('level');
+            const coinsDisplay = document.getElementById('coins');
+            const challengeText = document.getElementById('challenge-text');
+            const completeButton = document.getElementById('complete-challenge');
+            const challengeSection = document.getElementById('challenge');
+            const startButton = document.getElementById('start-challenge');
+            const challengesButton = document.getElementById('challenges-button');
+            const challengesList = document.getElementById('challenges-list');
+            const challengesDisplay = document.getElementById('challenges');
+            const claimRewardButton = document.getElementById('claim-challenge-reward');
+            const shopButton = document.getElementById('shop-button');
+            const shopSection = document.getElementById('shop-section');
+            const shopItems = document.querySelectorAll('.buy-item');
+            const purchasedItemsDisplay = document.getElementById('purchased-items');
+
+            // List of 50 daily fitness challenges
+            const challenges = [
+                'Complete 20 squats', 'Run 1 mile', 'Do 30 push-ups', //... Add remaining challenges
+            ];
+
+            // Function to get a random challenge
+            function getRandomChallenge() {
+                const randomIndex = Math.floor(Math.random() * challenges.length);
+                return challenges[randomIndex];
+            }
+
+            // Function to get a random set of challenges
+            function getRandomChallenges(num) {
+                const shuffled = challenges.sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, num);
+            }
+
+            // Initially hide the challenge section and challenges list
+            challengeSection.style.display = 'none';
+            challengesList.style.display = 'none';
+            shopSection.style.display = 'none';
+
+            // Show the challenge section and start a challenge when "Start Today's Challenge" is clicked
+            startButton.addEventListener('click', function () {
+                if (!challengeStarted) {
+                    // Show the challenge section
+                    challengeSection.style.display = 'block';
+
+                    // Set the challenge to a random one
+                    challengeText.textContent = getRandomChallenge();
+
+                    // Change the button text
+                    startButton.textContent = 'Stop for Today';
+                    challengeStarted = true;
+                } else {
+                    // Hide the challenge section and reset the button
+                    challengeSection.style.display = 'none';
+                    startButton.textContent = 'Start Today\'s Challenge';
+                    challengeStarted = false;
+                }
+            });
+
+            // Function to complete the challenge and refresh with a new random one
+            completeButton.addEventListener('click', function () {
+                totalXp += 100;
+
+                // Check if player has enough XP to level up
+                if (totalXp >= xpToNextLevel) {
+                    const coinReward = level * 10; // Reward based on current level
+                    coins += coinReward; // Add coins
+                    alert(Level up! You hit level ${level + 1} and got ${coinReward} coins 🏆!);
+                    
+                    level += 1; // Level up
+                    totalXp = 0; // Reset XP after leveling up
+                    xpToNextLevel = 500 * level; // Make it harder to level up next time
+                }
+
+                // Update display
+                xpRemainingDisplay.textContent = xpToNextLevel - totalXp;
+                totalXpDisplay.textContent = totalXp;
+                levelDisplay.textContent = level;
+                coinsDisplay.textContent = coins;
+
+                alert('Challenge completed! You earned 100 XP 🎉');
+
+                // Refresh the challenge with a new random one
+                challengeText.textContent = getRandomChallenge(); // Randomize the next challenge!
+            });
+
+            // Show a set of challenges when "Challenges" button is clicked
+            challengesButton.addEventListener('click', function () {
+                // Generate and display 5 random challenges
+                const selectedChallenges = getRandomChallenges(5);
+                challengesDisplay.innerHTML = selectedChallenges.map(challenge => <li>${challenge}</li>).join('');
+
+                // Show challenges list and set rewards ready
+                challengesList.style.display = 'block';
+                rewardsReady = true; // Set rewards to be claimed later
+            });
+
+            // Claim reward button
+            claimRewardButton.addEventListener('click', function () {
+                if (rewardsReady) {
+                    coins += 30; // Add coins
+                    totalXp += 500; // Add XP
+
+                    // Update displays
+                    coinsDisplay.textContent = coins; // Update coins display
+                    totalXpDisplay.textContent = totalXp; // Update total XP display
+
+                    alert('You have claimed your rewards: 500 XP and 30 Coins!');
+                    challengesList.style.display = 'none'; // Hide challenges list after claiming
+                    rewardsReady = false; // Reset rewards status
+                } else {
+                    alert('No rewards available to claim!');
+                }
+            });
+
+            // Shop functionality
+            shopButton.addEventListener('click', function () {
+                // Show or hide the shop section
+                shopSection.style.display = shopSection.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Buy items from the shop
+            shopItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const price = parseInt(this.getAttribute('data-price'));
+
+                    // Check if player has enough coins
+                    if (coins >= price) {
+                        coins -= price; // Deduct the price from coins
+                        coinsDisplay.textContent = coins; // Update coins display
+
+                        const itemName = this.parentNode.textContent.split(' - ')[0];
+                        purchasedItems.push(itemName); // Add to purchased items list
+
+                        // Display purchased items
+                        purchasedItemsDisplay.innerHTML = purchasedItems.map(item => <li>${item}</li>).join('');
+
+                        alert(You purchased ${itemName}!);
+                    } else {
+                        alert('Not enough coins!');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
