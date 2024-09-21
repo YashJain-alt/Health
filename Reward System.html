@@ -15,7 +15,7 @@
         .header {
             text-align: center;
             padding: 20px;
-            background-color: #4CAF50;
+            background-color: #359138;
             color: white;
         }
         .container {
@@ -49,7 +49,7 @@
         button:hover {
             background-color: #45a049;
         }
-        .reward-item {
+        .reward-item, .goal-item {
             margin: 10px 0;
             padding: 10px;
             border: 1px solid #ddd;
@@ -57,13 +57,12 @@
             display: flex;
             justify-content: space-between;
         }
-        .goal-item {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
+        .received {
+            color: green;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -86,37 +85,37 @@
         <!-- Redeem Points Section -->
         <div class="card">
             <h2>Redeem Rewards</h2>
-            <div class="reward-item">
+            <div class="reward-item" id="avatarReward">
                 <span>Custom Avatar</span>
                 <span>50 pts</span>
-                <button onclick="redeemReward(50)">Redeem</button>
+                <button onclick="redeemReward(50, 'avatarReward')">Redeem</button>
             </div>
-            <div class="reward-item">
+            <div class="reward-item" id="gearReward">
                 <span>Fitness Gear Discount</span>
                 <span>100 pts</span>
-                <button onclick="redeemReward(100)">Redeem</button>
+                <button onclick="redeemReward(100, 'gearReward')">Redeem</button>
             </div>
-            <div class="reward-item">
+            <div class="reward-item" id="workoutPlanReward">
                 <span>Exclusive Workout Plan</span>
                 <span>75 pts</span>
-                <button onclick="redeemReward(75)">Redeem</button>
+                <button onclick="redeemReward(75, 'workoutPlanReward')">Redeem</button>
             </div>
         </div>
 
         <!-- Goals Section -->
         <div class="card">
             <h2>Goals</h2>
-            <div class="goal-item">
+            <div class="goal-item" id="runGoal">
                 <span>Run 5 km</span>
-                <button onclick="completeGoal(this, 10)">Complete (10 pts)</button>
+                <button onclick="completeGoal(this, 10, 'runGoal')">Complete (10 pts)</button>
             </div>
-            <div class="goal-item">
+            <div class="goal-item" id="mealGoal">
                 <span>Log 10 meals</span>
-                <button onclick="completeGoal(this, 5)">Complete (5 pts)</button>
+                <button onclick="completeGoal(this, 5, 'mealGoal')">Complete (5 pts)</button>
             </div>
-            <div class="goal-item">
+            <div class="goal-item" id="workoutGoal">
                 <span>Achieve 3 workout sessions</span>
-                <button onclick="completeGoal(this, 15)">Complete (15 pts)</button>
+                <button onclick="completeGoal(this, 15, 'workoutGoal')">Complete (15 pts)</button>
             </div>
         </div>
     </div>
@@ -129,19 +128,21 @@
             document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
         }
 
-        function redeemReward(cost) {
+        function redeemReward(cost, rewardId) {
             if (points >= cost) {
                 points -= cost;
                 document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
+                const rewardItem = document.getElementById(rewardId);
+                rewardItem.innerHTML = `<span class="received">Reward Received!</span>`;
             } else {
                 alert("Not enough points to redeem this reward!");
             }
         }
 
-        function completeGoal(button, pointsEarned) {
+        function completeGoal(button, pointsEarned, goalId) {
             earnPoints(pointsEarned);
-            const goalItem = button.parentElement;
-            goalItem.style.display = 'none';  // Hide the completed goal
+            const goalItem = document.getElementById(goalId);
+            goalItem.classList.add('hidden');  // Hide the completed goal
             alert(`Goal completed! Earned ${pointsEarned} points.`);
         }
     </script>
