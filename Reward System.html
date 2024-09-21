@@ -7,17 +7,17 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #e9ecef;
-            color: #343a40;
+            background-color: #497681c0; /* Light gray background */
+            color: #14202c; /* Dark text */
             margin: 0;
             padding: 0;
         }
         .header {
             text-align: center;
             padding: 20px;
-            background-color: #007bff;
+            background-color: #3a91cc; /* Soft blue */
             color: white;
-            border-bottom: 3px solid #0056b3;
+            border-bottom: 3px solid #0933f0; /* Darker blue */
         }
         .container {
             display: flex;
@@ -26,46 +26,42 @@
             flex-wrap: wrap;
         }
         .card {
-            background-color: #ffffff;
+            background-color: #ffffff; /* White card */
             border-radius: 10px;
             padding: 20px;
             width: 280px;
             margin: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .card h2 {
             margin-top: 0;
-            color: #007bff;
+            color: #4795c9; /* Soft blue */
         }
         .points-display {
             text-align: center;
             margin: 20px 0;
             font-size: 24px;
-            color: #495057;
+            color: #1c2a38; /* Darker text */
         }
         button {
             padding: 10px 15px;
-            background-color: #28a745;
+            background-color: #46ca7d; /* Soft green */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #26ce6c; /* Darker green on hover */
         }
         .goal-item {
             margin: 10px 0;
             padding: 10px;
-            border: 1px solid #ced4da;
+            border: 1px solid #5f6c75; /* Light gray border */
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .received {
-            color: #28a745;
-            font-weight: bold;
         }
         .hidden {
             display: none;
@@ -101,11 +97,15 @@
     <script>
         let points = 0;
 
-        function completeGoal(button, pointsEarned, goalId) {
-            points += pointsEarned;
+        function earnPoints(amount) {
+            points += amount;
             document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
+        }
+
+        function completeGoal(button, pointsEarned, goalId) {
+            earnPoints(pointsEarned);
             const goalItem = document.getElementById(goalId);
-            goalItem.classList.add('hidden');  // Hide the completed goal
+            goalItem.style.display = 'none';  // Hide the completed goal
             alert(`Goal completed! Earned ${pointsEarned} points.`);
         }
     </script>
