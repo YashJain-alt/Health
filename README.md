@@ -9,5 +9,3 @@ In the shop, users can spend their coins on various incentives such as vouchers,
 The Leaderboard section tells about our standing among our friends and the people we know and it helps to motivate the user to remain at the top
 
 We have also added an about us page to tell you the user about our team to contact us for any grieveances.
-
-Lastly, one of the Main and Most Important Feature of this project is that it is made purely with HTML.
