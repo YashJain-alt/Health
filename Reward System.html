@@ -74,14 +74,6 @@
     </div>
 
     <div class="container">
-        <!-- Earn Points Section -->
-        <div class="card">
-            <h2>Earn Points</h2>
-            <button onclick="earnPoints(10)">Complete a Workout (10 pts)</button>
-            <button onclick="earnPoints(5)">Log a Meal (5 pts)</button>
-            <button onclick="earnPoints(15)">Achieve a Milestone (15 pts)</button>
-        </div>
-
         <!-- Redeem Points Section -->
         <div class="card">
             <h2>Redeem Rewards</h2>
@@ -123,11 +115,6 @@
     <script>
         let points = 0;
 
-        function earnPoints(amount) {
-            points += amount;
-            document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
-        }
-
         function redeemReward(cost, rewardId) {
             if (points >= cost) {
                 points -= cost;
@@ -140,7 +127,8 @@
         }
 
         function completeGoal(button, pointsEarned, goalId) {
-            earnPoints(pointsEarned);
+            points += pointsEarned;
+            document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
             const goalItem = document.getElementById(goalId);
             goalItem.classList.add('hidden');  // Hide the completed goal
             alert(`Goal completed! Earned ${pointsEarned} points.`);
