@@ -7,58 +7,64 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #e9ecef;
+            color: #343a40;
             margin: 0;
             padding: 0;
         }
         .header {
             text-align: center;
             padding: 20px;
-            background-color: #359138;
+            background-color: #007bff;
             color: white;
+            border-bottom: 3px solid #0056b3;
         }
         .container {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             margin: 30px 0;
+            flex-wrap: wrap;
         }
         .card {
-            background-color: #fff;
+            background-color: #ffffff;
             border-radius: 10px;
             padding: 20px;
-            width: 30%;
+            width: 280px;
+            margin: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .card h2 {
             margin-top: 0;
+            color: #007bff;
         }
         .points-display {
             text-align: center;
             margin: 20px 0;
             font-size: 24px;
+            color: #495057;
         }
         button {
             padding: 10px 15px;
-            background-color: #4CAF50;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #218838;
         }
-        .reward-item, .goal-item {
+        .goal-item {
             margin: 10px 0;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ced4da;
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
         .received {
-            color: green;
+            color: #28a745;
             font-weight: bold;
         }
         .hidden {
@@ -74,26 +80,6 @@
     </div>
 
     <div class="container">
-        <!-- Redeem Points Section -->
-        <div class="card">
-            <h2>Redeem Rewards</h2>
-            <div class="reward-item" id="avatarReward">
-                <span>Custom Avatar</span>
-                <span>50 pts</span>
-                <button onclick="redeemReward(50, 'avatarReward')">Redeem</button>
-            </div>
-            <div class="reward-item" id="gearReward">
-                <span>Fitness Gear Discount</span>
-                <span>100 pts</span>
-                <button onclick="redeemReward(100, 'gearReward')">Redeem</button>
-            </div>
-            <div class="reward-item" id="workoutPlanReward">
-                <span>Exclusive Workout Plan</span>
-                <span>75 pts</span>
-                <button onclick="redeemReward(75, 'workoutPlanReward')">Redeem</button>
-            </div>
-        </div>
-
         <!-- Goals Section -->
         <div class="card">
             <h2>Goals</h2>
@@ -114,17 +100,6 @@
 
     <script>
         let points = 0;
-
-        function redeemReward(cost, rewardId) {
-            if (points >= cost) {
-                points -= cost;
-                document.getElementById('pointsDisplay').innerText = `Points: ${points}`;
-                const rewardItem = document.getElementById(rewardId);
-                rewardItem.innerHTML = `<span class="received">Reward Received!</span>`;
-            } else {
-                alert("Not enough points to redeem this reward!");
-            }
-        }
 
         function completeGoal(button, pointsEarned, goalId) {
             points += pointsEarned;
