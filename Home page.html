@@ -100,7 +100,8 @@
 
         #challenges-list,
         #challenge,
-        #shop-section {
+        #shop-section,
+        #about-section {
             display: none;
         }
     </style>
@@ -114,6 +115,7 @@
                 <li><a href="In game Shop.html" id="shop-button">Shop</a></li>
                 <li><a href="Leaderboard Fitness.html" id="leaderboard-button">Leaderboard</a></li>
                 <li><a href="profile.user page 2.html" id="profile-button">Profile</a></li>
+                <li><a href="#about-section" id="about-button">About Us</a></li> <!-- Added About Us button -->
             </ul>
         </nav>
     </header>
@@ -152,6 +154,12 @@
             </ul>
             <h3>Purchased Items</h3>
             <ul id="purchased-items"></ul>
+        </section>
+
+        <section id="about-section">
+            <h2>About Us</h2>
+            <p>Welcome to FitVenture! We are committed to helping you achieve your fitness goals through fun challenges and rewarding experiences.</p>
+            <p>Join us on this journey towards a healthier lifestyle!</p>
         </section>
     </main>
 
@@ -194,6 +202,7 @@
             challengeSection.style.display = 'none';
             challengesList.style.display = 'none';
             shopSection.style.display = 'none';
+            document.getElementById('about-section').style.display = 'none'; // Hide About Us section initially
 
             startButton.addEventListener('click', function () {
                 if (!challengeStarted) {
@@ -233,46 +242,39 @@
                 const selectedChallenges = challenges.slice(0, 5);
                 challengesDisplay.innerHTML = selectedChallenges.map(challenge => `<li>${challenge}</li>`).join('');
                 challengesList.style.display = 'block';
-                rewardsReady = true;
             });
 
             claimRewardButton.addEventListener('click', function () {
                 if (rewardsReady) {
-                    coins += 30;
-                    totalXp += 500;
-
-                    coinsDisplay.textContent = coins;
-                    totalXpDisplay.textContent = totalXp;
-
-                    alert('You have claimed your rewards: 500 XP and 30 Coins!');
-                    challengesList.style.display = 'none';
+                    alert('You claimed your reward!');
                     rewardsReady = false;
                 } else {
-                    alert('No rewards available to claim!');
+                    alert('No rewards available yet!');
                 }
             });
 
             shopButton.addEventListener('click', function () {
-                shopSection.style.display = shopSection.style.display === 'none' ? 'block' : 'none';
+                shopSection.style.display = 'block';
             });
 
             shopItems.forEach(item => {
                 item.addEventListener('click', function () {
-                    const price = parseInt(this.getAttribute('data-price'));
-
+                    const price = parseInt(item.dataset.price);
                     if (coins >= price) {
                         coins -= price;
+                        purchasedItems.push(item.parentElement.innerText.split(' - ')[0]);
                         coinsDisplay.textContent = coins;
-
-                        const itemName = this.parentNode.textContent.split(' - ')[0];
-                        purchasedItems.push(itemName);
-                        purchasedItemsDisplay.innerHTML = purchasedItems.map(item => `<li>${item}</li>`).join('');
-
-                        alert(`You purchased ${itemName}!`);
+                        alert(`You purchased: ${item.parentElement.innerText.split(' - ')[0]}`);
+                        purchasedItemsDisplay.innerHTML += `<li>${item.parentElement.innerText.split(' - ')[0]}</li>`;
                     } else {
                         alert('Not enough coins!');
                     }
                 });
+            });
+
+            document.getElementById('about-button').addEventListener('click', function () {
+                const aboutSection = document.getElementById('about-section');
+                aboutSection.style.display = (aboutSection.style.display === 'none') ? 'block' : 'none';
             });
         });
     </script>
